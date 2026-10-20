@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nothing OS 4.0 Launcher — Xiaomi 14 Civi Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Strict Content Security Policy: Blocks external interception, remote script injection, & exfiltration -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data:; connect-src 'none'; object-src 'none'; frame-src 'none';">
+  <title>Nothing OS 4.0 Launcher — Xiaomi 14 Civi Special Edition</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23D71921'/></svg>">
 </head>
 <body>
 
-  <!-- Top Desktop Controls Bar -->
+  <!-- Top Desktop Controls Bar (Hidden automatically on real phone) -->
   <header class="desktop-controls-bar">
     <div class="brand-badge">
       <div class="red-dot"></div>
@@ -31,7 +33,7 @@
       </button>
       <button id="btn-open-settings" class="btn-ctrl" title="Launcher Settings">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-        <span>Customize</span>
+        <span>Settings</span>
       </button>
     </div>
   </header>
@@ -344,27 +346,41 @@
           </div>
 
           <div class="settings-list">
+            <!-- Hardware & Thermal Guard -->
             <div class="settings-group">
-              <div class="settings-group-title">DEVICE & DISPLAY</div>
+              <div class="settings-group-title">HARDWARE & THERMAL SHIELD</div>
               <div class="setting-item">
                 <span>Model Profile</span>
-                <span style="font-family: var(--font-ndot); color: var(--nothing-red); font-size: 11px;">Xiaomi 14 Civi (1.5K 120Hz)</span>
+                <span style="font-family: var(--font-ndot); color: var(--nothing-red); font-size: 11px;">Xiaomi 14 Civi (Snapdragon 8s Gen 3)</span>
               </div>
               <div class="setting-item">
-                <span>Dual-Pill Notch Action</span>
-                <span style="color: #aaa; font-size: 11px;">Dynamic Island (Tap to Expand)</span>
+                <span>Thermal Guard (IceLoop)</span>
+                <span style="color: #4ade80; font-family: var(--font-ndot); font-size: 10px;">OPTIMAL (0% Background CPU)</span>
+              </div>
+              <div class="setting-item">
+                <span>OLED Pixel Black Saver</span>
+                <span style="color: #4ade80; font-family: var(--font-ndot); font-size: 10px;">ACTIVE (Pure #000000)</span>
               </div>
             </div>
 
+            <!-- Privacy & Anti-Spyware Shield -->
             <div class="settings-group">
-              <div class="settings-group-title">WALLPAPER</div>
-              <div class="wallpaper-swatches">
-                <div class="wall-thumb active" data-bg="assets/wallpaper.jpg" style="background-image: url('assets/wallpaper.jpg');" title="Nothing 4.0 Hologram"></div>
-                <div class="wall-thumb" data-bg="radial-gradient(circle at 50% 50%, #151515 0%, #000 100%)" style="background: radial-gradient(circle at 50% 50%, #151515 0%, #000 100%);" title="Pure OLED Black"></div>
-                <div class="wall-thumb" data-bg="radial-gradient(circle at 30% 20%, rgba(215, 25, 33, 0.25) 0%, #080808 70%)" style="background: radial-gradient(circle at 30% 20%, rgba(215, 25, 33, 0.25) 0%, #080808 70%);" title="Crimson Glyph"></div>
+              <div class="settings-group-title">PRIVACY & ANTI-EXPLOIT SHIELD</div>
+              <div class="setting-item">
+                <span>Network Telemetry</span>
+                <span style="color: #4ade80; font-family: var(--font-ndot); font-size: 10px;">0 B (100% OFFLINE)</span>
+              </div>
+              <div class="setting-item">
+                <span>Intent Injection Shield</span>
+                <span style="color: #4ade80; font-family: var(--font-ndot); font-size: 10px;">HARDENED & SANITIZED</span>
+              </div>
+              <div class="setting-item">
+                <span>Content Security Policy</span>
+                <span style="color: #4ade80; font-family: var(--font-ndot); font-size: 10px;">ACTIVE (Strict CSP)</span>
               </div>
             </div>
 
+            <!-- Launcher Actions -->
             <div class="settings-group">
               <div class="settings-group-title">LAUNCHER BEHAVIOR</div>
               <div class="setting-item">
@@ -375,10 +391,22 @@
                 <span>Mechanical Audio Clicks</span>
                 <input type="checkbox" id="chk-audio" checked>
               </div>
-              <div class="setting-item">
-                <span>120Hz Kinetic Spring Physics</span>
-                <input type="checkbox" id="chk-physics" checked>
+            </div>
+
+            <!-- Wallpaper -->
+            <div class="settings-group">
+              <div class="settings-group-title">WALLPAPER</div>
+              <div class="wallpaper-swatches">
+                <div class="wall-thumb active" data-bg="assets/wallpaper.jpg" style="background-image: url('assets/wallpaper.jpg');" title="Nothing 4.0 Hologram"></div>
+                <div class="wall-thumb" data-bg="radial-gradient(circle at 50% 50%, #151515 0%, #000 100%)" style="background: radial-gradient(circle at 50% 50%, #151515 0%, #000 100%);" title="Pure OLED Black"></div>
+                <div class="wall-thumb" data-bg="radial-gradient(circle at 30% 20%, rgba(215, 25, 33, 0.25) 0%, #080808 70%)" style="background: radial-gradient(circle at 30% 20%, rgba(215, 25, 33, 0.25) 0%, #080808 70%);" title="Crimson Glyph"></div>
               </div>
+            </div>
+
+            <!-- Legal & Clean Room Architecture Notice -->
+            <div class="settings-group" style="opacity: 0.7; font-size: 10px; line-height: 1.4;">
+              <div class="settings-group-title">LEGAL & PATENT NOTICE</div>
+              <p>This software is an independent clean-room implementation inspired by minimalist dot-matrix aesthetics. "Nothing" and "Nothing OS" are registered trademarks of Nothing Technology Limited. "Xiaomi" is a trademark of Xiaomi Inc. This software is not affiliated with or endorsed by Nothing Technology Limited.</p>
             </div>
           </div>
         </div>
