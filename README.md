@@ -1,8 +1,22 @@
 # Nothing OS 4.0 Launcher — Xiaomi 14 Civi Edition
 
-A pixel-perfect, interactive recreation of the **Nothing OS 4.0 Launcher** specifically engineered and scaled for the **Xiaomi 14 Civi** (Civi 14) Android smartphone.
+[![Build & Release Nothing Launcher 4.0 APK](https://github.com/MythicRa11/NothingLauncher4-Civi14/actions/workflows/build-apk.yml/badge.svg)](https://github.com/MythicRa11/NothingLauncher4-Civi14/actions/workflows/build-apk.yml)
+[![GitHub release](https://img.shields.io/github/v/release/MythicRa11/NothingLauncher4-Civi14?color=D71921&label=Download%20APK)](https://github.com/MythicRa11/NothingLauncher4-Civi14/releases)
+
+A pixel-perfect, standalone **Native Android Home Launcher** recreation of **Nothing OS 4.0**, specifically engineered and tailored for the **Xiaomi 14 Civi** (Civi 14) Android smartphone.
 
 ![Nothing OS 4.0 Civi 14 Wallpaper](assets/wallpaper.jpg)
+
+---
+
+## 📥 How to Install on Your Xiaomi 14 Civi
+
+1. Go to the **[GitHub Releases Page](https://github.com/MythicRa11/NothingLauncher4-Civi14/releases)** on your phone.
+2. Download **`NothingLauncher-v4.0-Civi14.apk`**.
+3. Tap the file to install (allow *"Install from Unknown Sources"* in Xiaomi HyperOS if prompted).
+4. Tap the **Home** button on your phone or go to:
+   * **Settings → Apps → Manage Apps → Default Apps → Launcher**
+   * Select **Nothing Launcher 4.0** as your Default Home App!
 
 ---
 
@@ -14,57 +28,49 @@ A pixel-perfect, interactive recreation of the **Nothing OS 4.0 Launcher** speci
 
 ---
 
-## ⚡ Nothing OS 4.0 Signature Features
+## ⚡ Standalone Native Features (No External Support Needed)
 
-### 1. Interactive Dual-Pill Dynamic Island
-* Seamlessly fits around the Xiaomi 14 Civi's pill-shaped dual camera cutout.
-* **Tap to Expand**: Expands into Nothing's fluid **Dynamic Island** with animated sound waves, track details, and quick controls.
+1. **System Home Launcher (`CATEGORY_HOME` & `CATEGORY_DEFAULT`)**:
+   * Works directly as the primary Android desktop replacement.
+   * Pressing the home bar/button smoothly returns to your Nothing OS home screen.
 
-### 2. Dot-Matrix Typography & Live Widgets
-* **NDot Clock & Weather**: Live digital clock with red blinking dot-matrix colon, live date, and weather conditions.
-* **Vintage Media Player**: Retro dual cassette reels with real-time spinning animation, track title scrubber, and audio visualizer.
-* **Fitness Ring Widget**: Circular progress ring showing live step counts towards the 10,000-step goal.
-* **Quick Toggles**: Circular glyph buttons for Torch (with full screen flashlight overlay), Wi-Fi, Bluetooth, and Dark/Light mode with glowing red LED status dots.
+2. **Real App Query & Launch**:
+   * Automatically queries all apps installed on your Xiaomi 14 Civi (WhatsApp, Camera, Instagram, Settings, YouTube, etc.).
+   * Directly launches actual apps with zero lag.
 
-### 3. Nothing 2x2 Circular Folders
-* Iconic circular folder design from Nothing OS 4.0.
-* **Direct-Launch**: Tap any of the 4 mini app glyphs to launch instantly without opening the folder.
-* **Enlarged Suite**: Tap the folder backdrop to open the full-screen frosted glass suite modal.
+3. **Center Dual-Pill Dynamic Notch**:
+   * Custom-scaled to the Xiaomi 14 Civi's physical front dual-camera pill.
+   * **Tap to Expand**: Expands into Nothing's fluid **Dynamic Island** with animated audio waveforms, track details, and quick controls.
 
-### 4. Slide-Up Monochrome App Drawer
-* Vertical fluid scrolling with 24+ monochrome Nothing OS-style glyph icons.
-* Instant live search filtering.
-* Quick A-Z alphabetical jump scrubber on the right rail.
+4. **Hardware Controls**:
+   * **Real Torch / Flashlight**: Tap the quick toggle to turn the actual phone LED flash on/off.
+   * **Linear X-Axis Vibration**: Procedurally triggers the phone's tactile vibration motor for mechanical Nothing OS clicks.
+   * **Live Battery Stats**: Pulls real battery capacity from `BatteryManager`.
 
-### 5. Procedural Mechanical Audio Haptics
-* Uses the **Web Audio API** to generate tactile, mechanical clicks for taps, toggles, and drawer actions (can be muted via the top controls bar).
+5. **Nothing OS 4.0 Signature Widgets**:
+   * **Dot-Matrix Clock & Live Weather**: Digital clock with blinking red colon, live date, and weather info.
+   * **Vintage Media Player**: Dual cassette reels with real-time spinning animation and track scrubber.
+   * **Fitness Ring Widget**: Circular progress ring showing live step counts.
+   * **Nothing 2x2 Circular Folders**: Direct-launch mini apps or expand into a frosted glass suite modal.
 
----
-
-## 🚀 Running the Project
-
-You can run the launcher directly in any web browser:
-
-1. **Option A (Instant Open)**:
-   Double-click `index.html` to open in your default browser.
-
-2. **Option B (PowerShell Static Server)**:
-   ```powershell
-   powershell.exe -ExecutionPolicy Bypass -File .\server.ps1
-   ```
-   Then open `http://localhost:8080/`.
+6. **Monochrome App Drawer**:
+   * Smooth vertical kinetic scrolling with monochrome Nothing glyphs.
+   * Instant search filtering & A-Z alphabetical jump scrubber.
 
 ---
 
-## 📂 Project Structure
+## 🛠️ Building From Source
 
-```text
-NothingLauncher4_Civi14/
-├── index.html        # Main launcher structure & Civi 14 chassis
-├── style.css         # Nothing OS 4.0 design system & animations
-├── app.js            # Widget logic, audio haptics & interactions
-├── server.ps1        # Built-in lightweight HTTP server
-├── README.md         # Documentation & specs
-└── assets/
-    └── wallpaper.jpg # High-resolution Nothing 4.0 OLED wallpaper
+This project uses modern Gradle with Kotlin and Android Gradle Plugin 8.4:
+
+```bash
+# Clone the repository
+git clone https://github.com/MythicRa11/NothingLauncher4-Civi14.git
+cd NothingLauncher4-Civi14
+
+# Build release APK
+./gradlew assembleRelease
 ```
+
+The APK will be generated at:
+`app/build/outputs/apk/release/app-release.apk`

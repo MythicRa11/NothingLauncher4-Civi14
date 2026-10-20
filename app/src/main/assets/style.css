@@ -1,0 +1,1416 @@
+/* -------------------------------------------------------------
+   NOTHING OS 4.0 LAUNCHER - XIAOMI 14 CIVI SPECIAL EDITION
+   A pixel-perfect, ultra-rich interactive simulator & design system
+   ------------------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Silkscreen:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg-color: #000000;
+  --surface-glass: rgba(18, 18, 18, 0.72);
+  --surface-card: rgba(26, 26, 26, 0.85);
+  --surface-elevated: #1f1f1f;
+  --surface-active: #2a2a2a;
+  
+  --nothing-red: #D71921;
+  --nothing-red-glow: rgba(215, 25, 33, 0.45);
+  --nothing-white: #FFFFFF;
+  --nothing-light-gray: #E0E0E0;
+  --nothing-mid-gray: #8A8A8A;
+  --nothing-dark-gray: #2c2c2c;
+  --nothing-border: rgba(255, 255, 255, 0.12);
+  --nothing-border-hover: rgba(255, 255, 255, 0.28);
+  
+  --font-ndot: 'Silkscreen', 'JetBrains Mono', monospace;
+  --font-body: 'Space Grotesk', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --civi-bezel-radius: 46px;
+  --civi-screen-radius: 40px;
+  --civi-pill-width: 96px;
+  --civi-pill-height: 28px;
+  
+  --spring-ease: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --smooth-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] {
+  --bg-color: #ECEBE9;
+  --surface-glass: rgba(255, 255, 255, 0.78);
+  --surface-card: rgba(245, 245, 243, 0.9);
+  --surface-elevated: #e0dfdc;
+  --surface-active: #d2d0cc;
+  --nothing-white: #0a0a0a;
+  --nothing-light-gray: #202020;
+  --nothing-mid-gray: #666666;
+  --nothing-dark-gray: #d0ceca;
+  --nothing-border: rgba(0, 0, 0, 0.1);
+  --nothing-border-hover: rgba(0, 0, 0, 0.25);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  background: #080808;
+  color: var(--nothing-white);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Ambient Studio Backdrop */
+/* Real Phone Edge-to-Edge Mode when running inside the Native Android APK */
+body.native-android-mode {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+body.native-android-mode .civi-chassis {
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+body.native-android-mode .civi-screen {
+  border-radius: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+body.native-android-mode .chassis-glare,
+body.native-android-mode .chassis-side-buttons,
+body.native-android-mode .desktop-controls-bar {
+  display: none !important;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 20%, rgba(215, 25, 33, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+    linear-gradient(180deg, #0d0d0d 0%, #050505 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Outer Desktop Frame Controls & Info Bar */
+.desktop-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 920px;
+  padding: 14px 24px;
+  background: rgba(18, 18, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  backdrop-filter: blur(16px);
+  margin-bottom: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-badge .red-dot {
+  width: 9px;
+  height: 9px;
+  background: var(--nothing-red);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--nothing-red);
+  animation: pulse-dot 2.4s infinite;
+}
+
+.brand-title {
+  font-family: var(--font-ndot);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--nothing-white);
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--nothing-mid-gray);
+  padding-left: 6px;
+  border-left: 1px solid var(--nothing-border);
+}
+
+.controls-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-ctrl {
+  background: var(--surface-card);
+  border: 1px solid var(--nothing-border);
+  color: var(--nothing-white);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-ctrl:hover {
+  background: var(--surface-elevated);
+  border-color: var(--nothing-border-hover);
+  transform: translateY(-1px);
+}
+
+.btn-ctrl:active {
+  transform: scale(0.96);
+}
+
+.btn-ctrl.active {
+  background: var(--nothing-white);
+  color: #000;
+  border-color: var(--nothing-white);
+}
+
+/* ==============================================================
+   XIAOMI 14 CIVI HARDWARE SIMULATOR CHASSIS
+   Dual Curved Floating Glass, Center Pill Dynamic Notch, 20:9 Aspect
+   ============================================================== */
+.device-container {
+  position: relative;
+  transition: all 0.4s var(--smooth-ease);
+}
+
+/* When Device Frame is OFF (pure full view) */
+.device-container.frameless .civi-chassis {
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  width: 412px;
+  height: 892px;
+}
+.device-container.frameless .chassis-side-buttons,
+.device-container.frameless .chassis-glare {
+  display: none;
+}
+
+.civi-chassis {
+  position: relative;
+  width: 418px;
+  height: 902px;
+  background: #000;
+  border-radius: var(--civi-bezel-radius);
+  padding: 10px;
+  box-shadow: 
+    0 0 0 1px #333333,
+    0 0 0 4px #1c1c1c,
+    0 0 0 7px #0a0a0a,
+    0 24px 60px rgba(0, 0, 0, 0.85),
+    0 60px 120px rgba(0, 0, 0, 0.6);
+  border: 2px solid #3d3d3d;
+  overflow: visible;
+}
+
+/* Edge Glass Reflection */
+.chassis-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--civi-bezel-radius);
+  pointer-events: none;
+  z-index: 50;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Hardware buttons on right edge of Xiaomi 14 Civi */
+.chassis-btn {
+  position: absolute;
+  right: -9px;
+  background: #2a2a2a;
+  border-radius: 0 4px 4px 0;
+  border: 1px solid #444;
+  border-left: none;
+}
+.btn-power {
+  top: 240px;
+  width: 4px;
+  height: 52px;
+}
+.btn-volume {
+  top: 140px;
+  width: 4px;
+  height: 80px;
+}
+
+/* Screen Viewport */
+.civi-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--civi-screen-radius);
+  background-color: var(--bg-color);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* OLED Wallpaper Overlay (Subtle dot matrix grid & noise) */
+.civi-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Screen Torch Flashlight Simulation Overlay */
+.torch-overlay {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.torch-overlay.active {
+  opacity: 0.96;
+  pointer-events: auto;
+}
+.torch-overlay .torch-tap-hint {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000;
+  font-weight: 700;
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-family: var(--font-ndot);
+  letter-spacing: 1px;
+}
+
+/* ==============================================================
+   XIAOMI 14 CIVI DUAL-PILL CAMERA & DYNAMIC ISLAND
+   ============================================================== */
+.top-cutout-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  z-index: 120;
+  pointer-events: none;
+}
+
+.status-left, .status-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--nothing-white);
+  pointer-events: auto;
+}
+
+.status-left .dot-time {
+  font-family: var(--font-ndot);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-icon-svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* The Xiaomi 14 Civi Center Pill Cutout / Interactive Dynamic Pill */
+.civi-dynamic-pill {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--civi-pill-width);
+  height: var(--civi-pill-height);
+  background: #000000;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.08);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.35s var(--spring-ease);
+  z-index: 130;
+  overflow: hidden;
+}
+
+/* Physical Dual Lenses (32MP Wide + 32MP Ultrawide) */
+.dual-lens-left, .dual-lens-right {
+  width: 11px;
+  height: 11px;
+  background: radial-gradient(circle at 35% 35%, #222238 0%, #08080c 80%);
+  border-radius: 50%;
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  transition: opacity 0.2s ease;
+}
+.dual-lens-left::after, .dual-lens-right::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(140, 160, 255, 0.7);
+}
+
+/* Dynamic Pill Content when active / playing music or timer */
+.pill-dynamic-content {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 14px;
+  font-size: 11px;
+  color: #fff;
+}
+
+/* Expanded Dynamic Island State */
+.civi-dynamic-pill.expanded {
+  width: 310px;
+  height: 64px;
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+  border-radius: 32px;
+}
+.civi-dynamic-pill.expanded .dual-lens-left,
+.civi-dynamic-pill.expanded .dual-lens-right {
+  display: none;
+}
+.civi-dynamic-pill.expanded .pill-dynamic-content {
+  display: flex;
+}
+
+.pill-music-wave {
+  display: flex;
+  align-items: center;
+  gap: 2.5px;
+  height: 16px;
+}
+.pill-music-wave span {
+  width: 2.5px;
+  background: var(--nothing-red);
+  border-radius: 2px;
+  animation: sound-bounce 0.8s ease-in-out infinite alternate;
+}
+.pill-music-wave span:nth-child(1) { height: 6px; animation-delay: 0.1s; }
+.pill-music-wave span:nth-child(2) { height: 14px; animation-delay: 0.3s; }
+.pill-music-wave span:nth-child(3) { height: 9px; animation-delay: 0.2s; }
+.pill-music-wave span:nth-child(4) { height: 16px; animation-delay: 0.4s; }
+
+/* ==============================================================
+   LAUNCHER HOME CANVAS
+   ============================================================== */
+.launcher-viewport {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 16px 20px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  z-index: 10;
+}
+.launcher-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Grid for Nothing OS 4.0 Widgets */
+.nothing-widgets-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Base Widget Card */
+.nothing-widget {
+  background: var(--surface-glass);
+  border: 1px solid var(--nothing-border);
+  border-radius: 26px;
+  padding: 16px;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s var(--spring-ease), border-color 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.nothing-widget:hover {
+  border-color: var(--nothing-border-hover);
+  transform: translateY(-2px);
+}
+
+.nothing-widget:active {
+  transform: scale(0.97);
+}
+
+.nothing-widget.col-span-2 {
+  grid-column: span 2;
+}
+
+/* Widget: Nothing OS 4.0 Dot-Matrix Clock & Weather */
+.widget-clock-weather {
+  min-height: 130px;
+  justify-content: space-between;
+}
+
+.clock-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.clock-digits {
+  font-family: var(--font-ndot);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 2px;
+  color: var(--nothing-white);
+  display: flex;
+  align-items: center;
+}
+
+.clock-digits .colon {
+  animation: blink-colon 1.6s steps(1) infinite;
+  color: var(--nothing-red);
+  padding: 0 2px;
+}
+
+.weather-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.weather-temp {
+  font-family: var(--font-ndot);
+  font-size: 20px;
+  color: var(--nothing-white);
+}
+
+.weather-condition {
+  font-size: 11px;
+  color: var(--nothing-mid-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.clock-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--nothing-border);
+  padding-top: 10px;
+  margin-top: 8px;
+}
+
+.date-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--nothing-light-gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.location-tag {
+  font-family: var(--font-ndot);
+  font-size: 10px;
+  color: var(--nothing-red);
+  background: rgba(215, 25, 33, 0.12);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
+/* Widget: Quick Toggles (Circular Glyph Buttons) */
+.widget-toggles {
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.widget-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--nothing-mid-gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: var(--font-ndot);
+}
+
+.toggles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.glyph-toggle-btn {
+  background: var(--surface-elevated);
+  border: 1px solid var(--nothing-border);
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--nothing-light-gray);
+  transition: all 0.2s var(--spring-ease);
+  position: relative;
+}
+
+.glyph-toggle-btn:hover {
+  background: var(--surface-active);
+  border-color: var(--nothing-border-hover);
+  transform: scale(1.05);
+}
+
+.glyph-toggle-btn:active {
+  transform: scale(0.92);
+}
+
+.glyph-toggle-btn.active {
+  background: var(--nothing-white);
+  color: #000;
+  border-color: var(--nothing-white);
+}
+
+.glyph-toggle-btn.active.torch {
+  background: #facc15;
+  color: #000;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.6);
+}
+
+.toggle-led {
+  position: absolute;
+  top: 4px;
+  width: 4px;
+  height: 4px;
+  background: transparent;
+  border-radius: 50%;
+}
+.glyph-toggle-btn.active .toggle-led {
+  background: var(--nothing-red);
+  box-shadow: 0 0 6px var(--nothing-red);
+}
+
+.glyph-toggle-btn svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+}
+
+/* Widget: Vintage Nothing Tape / Media Player */
+.widget-player {
+  grid-column: span 2;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cassette-reels-box {
+  width: 68px;
+  height: 52px;
+  background: #111;
+  border: 1px solid var(--nothing-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cassette-reels-box::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: #333;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.reel {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px dashed #777;
+  background: #181818;
+  position: relative;
+  z-index: 2;
+}
+.reel.spinning {
+  animation: spin-reel 2.4s linear infinite;
+}
+
+.player-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.track-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--nothing-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-artist {
+  font-size: 11px;
+  color: var(--nothing-mid-gray);
+  margin-top: 2px;
+  font-family: var(--font-ndot);
+  letter-spacing: 0.5px;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-player-action {
+  background: var(--surface-elevated);
+  border: 1px solid var(--nothing-border);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--nothing-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-player-action:hover {
+  background: var(--surface-active);
+  transform: scale(1.08);
+}
+.btn-player-action:active {
+  transform: scale(0.92);
+}
+
+.btn-player-action.play-pause {
+  background: var(--nothing-white);
+  color: #000;
+}
+
+/* Widget: Step Counter Ring (Fitness) */
+.widget-fitness {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fitness-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.fitness-numbers .step-count {
+  font-family: var(--font-ndot);
+  font-size: 24px;
+  color: var(--nothing-white);
+}
+
+.fitness-numbers .step-goal {
+  font-size: 11px;
+  color: var(--nothing-mid-gray);
+}
+
+.circular-progress-wrap {
+  position: relative;
+  width: 52px;
+  height: 52px;
+}
+
+.circular-progress-svg {
+  transform: rotate(-90deg);
+  width: 52px;
+  height: 52px;
+}
+
+.circular-progress-svg circle {
+  fill: none;
+  stroke-width: 5;
+}
+
+.progress-track {
+  stroke: rgba(255, 255, 255, 0.08);
+}
+
+.progress-bar-fill {
+  stroke: var(--nothing-red);
+  stroke-dasharray: 138;
+  stroke-dashoffset: 40;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.progress-center-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+}
+
+/* ==============================================================
+   NOTHING OS 4.0 2x2 CIRCULAR FOLDERS & APP GRID
+   ============================================================== */
+.home-apps-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px 8px;
+  margin-bottom: 24px;
+}
+
+/* Nothing OS 4.0 Enlarged Circular Folder (2x2 Grid) */
+.nothing-circle-folder {
+  grid-column: span 2;
+  grid-row: span 2;
+  aspect-ratio: 1;
+  background: var(--surface-glass);
+  border: 1px solid var(--nothing-border);
+  border-radius: 50%;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  place-items: center;
+  backdrop-filter: blur(28px);
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: all 0.25s var(--spring-ease);
+}
+
+.nothing-circle-folder:hover {
+  border-color: var(--nothing-border-hover);
+  transform: scale(1.02);
+}
+
+.folder-mini-app {
+  width: 44px;
+  height: 44px;
+  background: var(--surface-card);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--nothing-white);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+.folder-mini-app:hover {
+  background: var(--nothing-white);
+  color: #000;
+  transform: scale(1.15);
+}
+
+.folder-badge-label {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-ndot);
+  font-size: 9px;
+  color: var(--nothing-mid-gray);
+  letter-spacing: 1px;
+}
+
+/* Standard App Icon */
+.app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.2s var(--spring-ease);
+}
+
+.app-item:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+.app-item:active {
+  transform: scale(0.92);
+}
+
+.app-icon {
+  width: 56px;
+  height: 56px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--nothing-white);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.app-icon svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+.app-item:hover .app-icon {
+  border-color: var(--nothing-white);
+  background: #1c1c1c;
+}
+
+/* Subtle Nothing Red accent dot on special apps */
+.app-icon.has-dot::after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 5px;
+  height: 5px;
+  background: var(--nothing-red);
+  border-radius: 50%;
+}
+
+.app-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--nothing-light-gray);
+  letter-spacing: 0.3px;
+  text-align: center;
+  max-width: 68px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Bottom Dock Area */
+.launcher-dock {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 12px 14px;
+  background: var(--surface-glass);
+  border: 1px solid var(--nothing-border);
+  border-radius: 32px;
+  backdrop-filter: blur(32px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.dock-item {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--surface-elevated);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--nothing-white);
+  cursor: pointer;
+  transition: all 0.2s var(--spring-ease);
+}
+
+.dock-item:hover {
+  background: var(--nothing-white);
+  color: #000;
+  transform: translateY(-4px) scale(1.1);
+}
+.dock-item:active {
+  transform: scale(0.92);
+}
+.dock-item svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+/* Bottom Android Navigation Gesture Bar */
+.android-gesture-bar {
+  width: 100%;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+}
+.gesture-pill {
+  width: 130px;
+  height: 4.5px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+.android-gesture-bar:hover .gesture-pill {
+  width: 160px;
+  background: var(--nothing-white);
+}
+
+/* ==============================================================
+   APP DRAWER (SLIDE-UP NOTHING MONOCHROME DRAWER)
+   ============================================================== */
+.app-drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.96);
+  backdrop-filter: blur(36px);
+  -webkit-backdrop-filter: blur(36px);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  padding: 54px 16px 20px 16px;
+  transform: translateY(105%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--civi-screen-radius);
+}
+
+.app-drawer-overlay.open {
+  transform: translateY(0);
+}
+
+.drawer-search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-card);
+  border: 1px solid var(--nothing-border);
+  border-radius: 24px;
+  padding: 10px 16px;
+  margin-bottom: 18px;
+}
+
+.drawer-search-row svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--nothing-mid-gray);
+}
+
+.drawer-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--nothing-white);
+}
+.drawer-search-input::placeholder {
+  color: var(--nothing-mid-gray);
+  font-family: var(--font-ndot);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.drawer-content-split {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.drawer-apps-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 8px;
+  align-content: start;
+  padding-bottom: 30px;
+}
+.drawer-apps-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Alphabet Fast-Scrubber on Right Edge */
+.alphabet-scrubber {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0 4px 6px;
+  font-family: var(--font-ndot);
+  font-size: 9px;
+  color: var(--nothing-mid-gray);
+  user-select: none;
+}
+.alphabet-scrubber span {
+  cursor: pointer;
+  padding: 1px;
+  transition: color 0.15s ease;
+}
+.alphabet-scrubber span:hover {
+  color: var(--nothing-red);
+  font-weight: 700;
+}
+
+.btn-close-drawer {
+  background: var(--surface-card);
+  border: 1px solid var(--nothing-border);
+  color: var(--nothing-light-gray);
+  padding: 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-family: var(--font-ndot);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+}
+.btn-close-drawer:hover {
+  background: var(--surface-elevated);
+  color: #fff;
+}
+
+/* ==============================================================
+   EXPANDED FOLDER MODAL
+   ============================================================== */
+.folder-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(28px);
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  border-radius: var(--civi-screen-radius);
+}
+.folder-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.folder-card-dialog {
+  width: 86%;
+  background: var(--surface-card);
+  border: 1px solid var(--nothing-border);
+  border-radius: 36px;
+  padding: 24px 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  transform: scale(0.9);
+  transition: transform 0.3s var(--spring-ease);
+}
+.folder-modal-overlay.open .folder-card-dialog {
+  transform: scale(1);
+}
+
+.folder-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.folder-dialog-title {
+  font-family: var(--font-ndot);
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  color: var(--nothing-white);
+}
+
+.folder-dialog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 10px;
+  place-items: center;
+}
+
+/* ==============================================================
+   CUSTOMIZATION / SETTINGS PANEL MODAL
+   ============================================================== */
+.settings-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(30px);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 20px 20px 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  border-radius: var(--civi-screen-radius);
+}
+.settings-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.settings-title {
+  font-family: var(--font-ndot);
+  font-size: 15px;
+  letter-spacing: 2px;
+  color: var(--nothing-white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.settings-list::-webkit-scrollbar {
+  display: none;
+}
+
+.settings-group {
+  background: var(--surface-card);
+  border: 1px solid var(--nothing-border);
+  border-radius: 20px;
+  padding: 16px;
+}
+.settings-group-title {
+  font-family: var(--font-ndot);
+  font-size: 11px;
+  color: var(--nothing-mid-gray);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.wallpaper-swatches {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.wall-thumb {
+  width: 44px;
+  height: 64px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.2s ease;
+}
+.wall-thumb:hover {
+  transform: scale(1.08);
+}
+.wall-thumb.active {
+  border-color: var(--nothing-red);
+}
+
+/* App Launch Simulated Window / Toast */
+.app-launch-screen {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+  transition: all 0.3s var(--smooth-ease);
+  border-radius: var(--civi-screen-radius);
+}
+.app-launch-screen.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+.app-launch-icon-big {
+  width: 72px;
+  height: 72px;
+  background: #181818;
+  border-radius: 24px;
+  border: 1px solid var(--nothing-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.app-launch-name {
+  font-family: var(--font-ndot);
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+.app-launch-sub {
+  font-size: 12px;
+  color: var(--nothing-mid-gray);
+}
+.btn-back-home {
+  margin-top: 24px;
+  background: var(--nothing-white);
+  color: #000;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+/* Animations */
+@keyframes blink-colon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+
+@keyframes spin-reel {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sound-bounce {
+  0% { transform: scaleY(0.4); }
+  100% { transform: scaleY(1.3); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  body {
+    padding: 0;
+    justify-content: flex-start;
+  }
+  .desktop-controls-bar {
+    border-radius: 0;
+    margin-bottom: 0;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .civi-chassis {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+  .civi-screen {
+    border-radius: 0;
+  }
+  .chassis-btn, .chassis-glare {
+    display: none;
+  }
+}

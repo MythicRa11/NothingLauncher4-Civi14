@@ -1,0 +1,74 @@
+name: Build & Release Nothing Launcher 4.0 APK
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Grant Execute Permission to Gradlew
+        run: chmod +x gradlew
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Prepare APK Asset
+        run: |
+          mkdir -p release-output
+          cp app/build/outputs/apk/release/app-release.apk release-output/NothingLauncher-v4.0-Civi14.apk
+          echo "APK generated successfully:"
+          ls -lh release-output/
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NothingLauncher-v4.0-Civi14
+          path: release-output/NothingLauncher-v4.0-Civi14.apk
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main'
+        with:
+          tag_name: v4.0.0-civi14
+          name: "Nothing Launcher 4.0 for Xiaomi 14 Civi (v4.0.0)"
+          body: |
+            ## 📱 Nothing Launcher 4.0 — Xiaomi 14 Civi Edition
+
+            Official standalone Android Home Launcher APK for Xiaomi 14 Civi (Civi 14).
+
+            ### 🚀 What's New:
+            - **Native Home Launcher (`CATEGORY_HOME`)**: Can be set directly as your default home app on Xiaomi 14 Civi HyperOS.
+            - **Center Dual-Pill Notch Integration**: Fits around the dual 32MP front camera with an interactive Dynamic Island.
+            - **Real App Queries**: Lists and launches all real apps on your phone with zero delay.
+            - **Real Hardware Haptics**: Uses the linear X-axis motor on Xiaomi 14 Civi for mechanical Nothing OS clicks.
+            - **Flashlight Control**: Toggles the real LED flash on your phone.
+            - **Real Battery Stats**: Live battery percentage in the status bar.
+            - **Nothing OS 4.0 Signature Widgets**: Dot-matrix clock & weather, vintage tape music player, fitness ring, and 2x2 circular folders.
+
+            ### 📥 Installation:
+            1. Download `NothingLauncher-v4.0-Civi14.apk` below directly on your phone.
+            2. Tap to install (allow "Install from Unknown Sources" if prompted).
+            3. Open the app, or go to **Settings > Apps > Manage Apps > Default Apps > Launcher** and select **Nothing Launcher 4.0**!
+          files: release-output/NothingLauncher-v4.0-Civi14.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

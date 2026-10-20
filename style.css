@@ -73,6 +73,33 @@ body {
 }
 
 /* Ambient Studio Backdrop */
+/* Real Phone Edge-to-Edge Mode when running inside the Native Android APK */
+body.native-android-mode {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+body.native-android-mode .civi-chassis {
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+body.native-android-mode .civi-screen {
+  border-radius: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+body.native-android-mode .chassis-glare,
+body.native-android-mode .chassis-side-buttons,
+body.native-android-mode .desktop-controls-bar {
+  display: none !important;
+}
+
 body::before {
   content: '';
   position: fixed;
