@@ -1,0 +1,19 @@
+# Decompiled and temporary working trees
+smali_dump/
+decoded_official/
+decoded_clean/
+temp_check_*/
+temp_test_*/
+.gradle/
+build/
+scratch/
+v5_unpacked/
+apkm_extracted/
+
+# Binary artifacts and release keystores
+*.apk
+*.idsig
+*.keystore
+*.jar
+*.log
+*.tmp
